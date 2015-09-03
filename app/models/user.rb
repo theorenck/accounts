@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
 
-	before_create :set_token
+  has_many :memberships
+  has_many :organizations, through: :memberships
+  has_many :profiles, as: :profileable
 
+	before_create :set_token
 
 
   private
