@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150903191106) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "profiles", force: :cascade do |t|
+  create_table "profiles", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "description"
     t.integer  "profileable_id"
     t.string   "profileable_type"

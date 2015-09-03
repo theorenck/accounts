@@ -8,3 +8,4 @@
 
 
 User.create(username: 'ivoneijr', email: 'ivoneijr@gmail.com', password: 'ivoneijr')
+Organization.create(name: 'zeta')
