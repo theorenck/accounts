@@ -7,8 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-# User.create(username: 'ivoneijr', email: 'ivoneijr@gmail.com', password: 'ivoneijr')
+
+
 # Organization.create(name: 'zeta')
+# User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
+User.create(username: 'ivoneijr', email: 'ivoneijr@zeta.com', password: 'ivoneijr')
 
-
-User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
+ServiceType.create(name: 'Middleware', description: 'Midlevare Description')
