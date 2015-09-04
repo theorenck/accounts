@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    p @authenticated
+    # p @authenticated
     @users = User.all
     render json: @users
   end
@@ -12,6 +12,10 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: @user
+  end
+
+  def me
+    render json: @authenticated
   end
 
   # GET /users/new

@@ -5,6 +5,8 @@ class Organization < ActiveRecord::Base
   has_many :profiles, as: :profileable
   has_one :owner, foreign_key: 'id', class_name: 'User', primary_key: 'owner_id'
 
+  accepts_nested_attributes_for :memberships
+
   def as_json(options={})
     {
       id: id,

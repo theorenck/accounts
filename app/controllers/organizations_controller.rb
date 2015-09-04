@@ -1,42 +1,30 @@
 class OrganizationsController < ApplicationController
+  before_action :set_owner, only: [:create]
+  before_action :set_organization, only: [:show, :update, :destroy]
 
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
-
-  # GET /organizations
-  # GET /organizations.json
   def index
     @organizations = Organization.all
     render json: @organizations
   end
 
-  # GET /organizations/1
   def show
-    render json: @user
+    render json: @organization
   end
 
-  # GET /organizations/new
-  def new
-    @organization = Organization.new
-  end
-
-  # GET /organizations/1/edit
-  def edit
-  end
-
-  # POST /organizations
-  # POST /organizations.json
   def create
     @organization = Organization.new(organization_params)
+    # @organization.memberships.build({membership:{user_id: organization_params[:organization][:owner_id]}})
+    # @organization.memberships.build({user_id: organization_params[:organization][:owner_id]})
+
+    p @organization
 
     if @organization.save
       render json: @organization
     else
       render json: @organization.errors, status: :unprocessable_entity
     end
-
   end
 
-  # PATCH/PUT /organizations/1
   def update
     if @organization.update(organization_params)
       render json: @organization, status: :ok
@@ -45,21 +33,24 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  # DELETE /organizations/1
   def destroy
     @organization.destroy
     head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_organization
       @organization = Organization.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def organization_params
+    def set_owner
       params[:organization][:owner_id] = @authenticated.id
-      params.require(:organization).permit(:name, :owner_id)
+      params[:organization][:memberships_attributes] = []
+      params[:organization][:memberships_attributes][0] = {}
+      params[:organization][:memberships_attributes][0][:user_id] = params[:organization][:owner_id]
+    end
+
+    def organization_params
+      params.require(:organization).permit(:id, :name, :owner_id, memberships_attributes: [:user_id])
     end
 end

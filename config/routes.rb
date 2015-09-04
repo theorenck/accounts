@@ -5,8 +5,12 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
+  get 'users/me' => 'users#me'
   resources :users
-  resources :organizations
+
+  resources :organizations do
+    resources :memberships
+  end
   resources :authentications, only: :create
 
   # Example of regular route:
