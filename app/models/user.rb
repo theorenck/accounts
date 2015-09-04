@@ -6,6 +6,16 @@ class User < ActiveRecord::Base
 
 	before_create :set_token
 
+  def as_json(options={})
+    {
+      id: id,
+      username: username,
+      email: email,
+      # token: token,
+      created_at: created_at,
+      updated_at: updated_at
+    }
+  end
 
   private
     def set_token

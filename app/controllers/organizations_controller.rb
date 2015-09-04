@@ -10,7 +10,6 @@ class OrganizationsController < ApplicationController
   end
 
   # GET /organizations/1
-  # GET /organizations/1.json
   def show
     render json: @user
   end
@@ -38,7 +37,6 @@ class OrganizationsController < ApplicationController
   end
 
   # PATCH/PUT /organizations/1
-  # PATCH/PUT /organizations/1.json
   def update
     if @organization.update(organization_params)
       render json: @organization, status: :ok
@@ -48,7 +46,6 @@ class OrganizationsController < ApplicationController
   end
 
   # DELETE /organizations/1
-  # DELETE /organizations/1.json
   def destroy
     @organization.destroy
     head :no_content
@@ -62,7 +59,7 @@ class OrganizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
-      # params[:organization]
-      params.require(:organization).permit(:name)
+      params[:organization][:owner_id] = @authenticated.id
+      params.require(:organization).permit(:name, :owner_id)
     end
 end

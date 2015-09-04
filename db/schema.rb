@@ -18,21 +18,22 @@ ActiveRecord::Schema.define(version: 20150903191106) do
   enable_extension "uuid-ossp"
 
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.integer  "organization_id"
-    t.integer  "user_id"
-    t.boolean  "owner"
+    t.uuid     "organization_id"
+    t.uuid     "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-  add_index "memberships", ["organization_id"], name: "index_memberships_on_organization_id", using: :btree
-  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+  add_index "memberships", ["organization_id", "user_id"], name: "index_memberships_on_organization_id_and_user_id", unique: true, using: :btree
 
   create_table "organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
+    t.uuid     "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
 
   create_table "profiles", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "description"
