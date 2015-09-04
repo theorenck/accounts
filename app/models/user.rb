@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
     {
       id: id,
       username: username,
-      email: email,
-      # token: token,
+      email: email, 
+      organizations: organizations,
       created_at: created_at,
       updated_at: updated_at
     }
