@@ -7,11 +7,13 @@ Rails.application.routes.draw do
 
   get 'users/me' => 'users#me'
   resources :users
-
   resources :organizations do
     resources :memberships
   end
   resources :authentications, only: :create
+  resources :services
+  resources :profiles
+  resources :service_types
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

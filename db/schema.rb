@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903191106) do
+ActiveRecord::Schema.define(version: 20150904180102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,26 @@ ActiveRecord::Schema.define(version: 20150903191106) do
   end
 
   add_index "profiles", ["profileable_type", "profileable_id"], name: "index_profiles_on_profileable_type_and_profileable_id", using: :btree
+
+  create_table "service_types", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.integer  "service_type_id"
+    t.integer  "organization_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "url"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "services", ["organization_id"], name: "index_services_on_organization_id", using: :btree
+  add_index "services", ["service_type_id"], name: "index_services_on_service_type_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "username"
