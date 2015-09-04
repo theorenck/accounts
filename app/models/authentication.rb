@@ -16,14 +16,9 @@ class Authentication < ActiveType::Object
     @user.token
   end
 
-  def user
-    @user
-  end
-
   def as_json(options={})
     {
-      token: token,
-      user: user
+      token: token
     }
   end
 end
