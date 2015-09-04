@@ -45,16 +45,16 @@ ActiveRecord::Schema.define(version: 20150904180102) do
 
   add_index "profiles", ["profileable_type", "profileable_id"], name: "index_profiles_on_profileable_type_and_profileable_id", using: :btree
 
-  create_table "service_types", force: :cascade do |t|
+  create_table "service_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  create_table "services", force: :cascade do |t|
-    t.integer  "service_type_id"
-    t.integer  "organization_id"
+  create_table "services", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "type_id"
+    t.uuid     "organization_id"
     t.string   "name"
     t.string   "description"
     t.string   "url"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20150904180102) do
   end
 
   add_index "services", ["organization_id"], name: "index_services_on_organization_id", using: :btree
-  add_index "services", ["service_type_id"], name: "index_services_on_service_type_id", using: :btree
+  add_index "services", ["type_id"], name: "index_services_on_type_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "username"

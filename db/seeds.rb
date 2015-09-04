@@ -9,8 +9,6 @@
 
 
 
-# Organization.create(name: 'zeta')
-# User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
-User.create(username: 'ivoneijr', email: 'ivoneijr@zeta.com', password: 'ivoneijr')
 
-ServiceType.create(name: 'Middleware', description: 'Midlevare Description')
+User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
+ServiceType.create(name: 'middleware', description: 'Zeta Middleware')
