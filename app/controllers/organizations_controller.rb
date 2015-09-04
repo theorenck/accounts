@@ -13,10 +13,6 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(organization_params)
-    # @organization.memberships.build({membership:{user_id: organization_params[:organization][:owner_id]}})
-    # @organization.memberships.build({user_id: organization_params[:organization][:owner_id]})
-
-    p @organization
 
     if @organization.save
       render json: @organization

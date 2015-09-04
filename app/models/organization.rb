@@ -11,9 +11,10 @@ class Organization < ActiveRecord::Base
   def as_json(options={})
     {
       id: id,
-      name: name,
-      members: users,
       owner: owner,
+      name: name,
+      services: services,
+      members: users,
       created_at: created_at,
       updated_at: updated_at
     }
