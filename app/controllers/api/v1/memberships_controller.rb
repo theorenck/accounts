@@ -1,4 +1,4 @@
-class MembershipsController < ApplicationController
+class API::V1::MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
 
   def create

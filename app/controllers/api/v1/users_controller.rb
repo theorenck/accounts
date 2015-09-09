@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class API::V1::UsersController < ApplicationController
 
   before_action :authenticate, except: [:create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]

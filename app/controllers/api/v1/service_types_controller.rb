@@ -1,4 +1,4 @@
-class ServiceTypesController < ApplicationController
+class API::V1::ServiceTypesController < ApplicationController
   before_action :set_service_type, only: [:show, :update, :destroy]
 
   def index
