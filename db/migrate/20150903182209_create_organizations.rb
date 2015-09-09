@@ -3,7 +3,7 @@ class CreateOrganizations < ActiveRecord::Migration
     create_table :organizations, id: :uuid  do |t|
       t.string :name
       t.uuid :owner_id, index: true
-      t.timestamps null: false
+     	t.timestamps null: false
     end
   end
 end
