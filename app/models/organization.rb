@@ -10,16 +10,5 @@ class Organization < ActiveRecord::Base
 
   accepts_nested_attributes_for :memberships
 
-  # def as_json(options={})
-  #   {
-  #     id: id,
-  #     owner: owner,
-  #     name: name,
-  #     services: services,
-  #     members: users,
-  #     created_at: created_at,
-  #     updated_at: updated_at
-  #   }
-  # end
-
+  alias_method :members, :users
 end
