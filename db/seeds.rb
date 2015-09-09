@@ -1,14 +1,10 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+
+admin = User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
+zeta = Organization.create(name: 'Zeta Informatica', owner_id: admin.id)
 
 
+middleware = ServiceType.create(code: 'middleware', name: 'middleware', description: 'Zeta Middleware')
+v1 = Service.create(version: 'v1', type_id: middleware.id)
 
+ServiceInstance.create(service: v1, organization: zeta)
 
-
-User.create(username: 'admin', email: 'carlos.renck@zeta.com', password: 'admin', token:'3c897fa3098770eef3ed71e314d4c2b1')
-ServiceType.create(name: 'middleware', description: 'Zeta Middleware')

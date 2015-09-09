@@ -43,7 +43,6 @@ class API::V1::ServiceTypesController < ApplicationController
     end
 
     def service_type_params
-      # params[:service_type]
-      params.require(:service_type).permit(:name, :description)
+      params.require(:service_type).permit(:code, :name, :description)
     end
 end

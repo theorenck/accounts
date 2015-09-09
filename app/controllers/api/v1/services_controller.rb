@@ -44,6 +44,6 @@ class API::V1::ServicesController < ApplicationController
 
     def service_params
       # params[:service]
-      params.require(:service).permit(:name, :description, :url, :organization_id, :type_id)
+      params.require(:service).permit(:version, :organization_id, :type_id)
     end
 end

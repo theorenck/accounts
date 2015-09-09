@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904180102) do
+ActiveRecord::Schema.define(version: 20150909191338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,18 @@ ActiveRecord::Schema.define(version: 20150904180102) do
 
   add_index "profiles", ["profileable_id", "profileable_type"], name: "index_profiles_on_profileable_id_and_profileable_type", unique: true, using: :btree
 
+  create_table "service_instances", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "url"
+    t.uuid     "service_id"
+    t.uuid     "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "service_instances", ["service_id", "organization_id"], name: "index_service_instances_on_service_id_and_organization_id", unique: true, using: :btree
+
   create_table "service_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "code"
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  null: false
@@ -54,15 +65,11 @@ ActiveRecord::Schema.define(version: 20150904180102) do
 
   create_table "services", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "type_id"
-    t.uuid     "organization_id"
-    t.string   "name"
-    t.string   "description"
-    t.string   "url"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "services", ["organization_id"], name: "index_services_on_organization_id", using: :btree
   add_index "services", ["type_id"], name: "index_services_on_type_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

@@ -16,6 +16,7 @@ class API::V1::AuthenticationsController < ApplicationController
   private
 
     def authentication_params
-      params.require(:authentication).permit(:username, :password)
+      params[:authentication][:remote_ip] = request.remote_ip
+      params.require(:authentication).permit(:username, :password, :remote_ip)
     end
 end

@@ -10,10 +10,20 @@ class User < ActiveRecord::Base
     {
       id: id,
       username: username,
-      email: email, 
+      email: email,
       created_at: created_at,
       updated_at: updated_at
     }
+  end
+
+  def update_sign_in_info(remote_ip)
+    self.last_sign_in_ip = current_sign_in_ip
+    self.current_sign_in_ip = remote_ip
+
+    self.last_sign_in_at = current_sign_in_at
+    self.current_sign_in_at = Time.new
+
+    self.save
   end
 
   private
