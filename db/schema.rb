@@ -37,13 +37,13 @@ ActiveRecord::Schema.define(version: 20150904180102) do
 
   create_table "profiles", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "description"
-    t.integer  "profileable_id"
+    t.uuid     "profileable_id"
     t.string   "profileable_type"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
-  add_index "profiles", ["profileable_type", "profileable_id"], name: "index_profiles_on_profileable_type_and_profileable_id", using: :btree
+  add_index "profiles", ["profileable_id", "profileable_type"], name: "index_profiles_on_profileable_id_and_profileable_type", unique: true, using: :btree
 
   create_table "service_types", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
@@ -70,8 +70,12 @@ ActiveRecord::Schema.define(version: 20150904180102) do
     t.string   "email"
     t.string   "password"
     t.string   "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
 end
