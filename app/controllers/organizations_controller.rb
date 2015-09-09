@@ -47,6 +47,16 @@ class OrganizationsController < ApplicationController
     end
 
     def organization_params
-      params.require(:organization).permit(:id, :name, :owner_id, memberships_attributes: [:user_id])
+      params.require(:organization).permit(:id,
+        :name,
+        :owner_id,
+        memberships_attributes: [:user_id],
+        services_attributes: [:name,
+          :description,
+          :url,
+          :organization_id,
+          :type_id
+        ]
+      )
     end
 end
