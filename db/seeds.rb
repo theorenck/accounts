@@ -6,5 +6,5 @@ Membership.create(organization:zeta, user:admin)
 middleware = ServiceType.create(code: 'middleware', name: 'middleware', description: 'Zeta Middleware')
 v1 = Service.create(version: 'v1', type_id: middleware.id)
 
-ServiceInstance.create(service: v1, organization: zeta)
+ServiceInstance.create(service: v1, organization: zeta, url:'http://zetainfo.dyndns.info')
 
