@@ -10,7 +10,8 @@ Rails.application.routes.draw do
 
     resources :users
     get 'users/me' => 'users#me'
-    resources :authentications, only: :create
+    post 'users/signin' => 'users#signin'
+    # resources :authentications, only: :create
     resources :services
     resources :profiles
     resources :service_types

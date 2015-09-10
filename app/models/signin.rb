@@ -1,4 +1,4 @@
-class Authentication < ActiveType::Object
+class Signin < ActiveType::Object
 
   after_validation :retrive_user
 

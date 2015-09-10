@@ -1,6 +1,6 @@
 class API::V1::UsersController < ApplicationController
 
-  before_action :authenticate, except: [:create]
+  before_action :authenticate, except: [:create, :signin]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -43,12 +43,23 @@ class API::V1::UsersController < ApplicationController
     head :no_content
   end
 
+  def signin
+    @signin = Signin.new(user_params)
+
+    if @signin.save
+      render json: @signin, status: :created
+    else
+      render json: { errors: @signin.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
     end
 
     def user_params
-      params.require(:user).permit(:username, :password, :email)
+      params[:user][:remote_ip] = request.remote_ip
+      params.require(:user).permit(:username, :password, :email, :remote_ip)
     end
 end

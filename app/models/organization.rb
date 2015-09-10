@@ -10,5 +10,7 @@ class Organization < ActiveRecord::Base
 
   accepts_nested_attributes_for :memberships
 
+  validates :name, presence: true
+
   alias_method :members, :users
 end
