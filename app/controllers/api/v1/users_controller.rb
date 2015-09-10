@@ -60,6 +60,6 @@ class API::V1::UsersController < ApplicationController
 
     def user_params
       params[:user][:remote_ip] = request.remote_ip
-      params.require(:user).permit(:username, :password, :email, :remote_ip)
+      params.require(:user).permit(:username, :password, :email)
     end
 end
