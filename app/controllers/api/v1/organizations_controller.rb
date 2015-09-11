@@ -3,7 +3,7 @@ class API::V1::OrganizationsController < ApplicationController
   before_action :set_organization, only: [:show, :update, :destroy]
 
   def index
-    @organizations = Organization.all
+    @organizations = Organization.includes(:owner).all
     render json: @organizations
   end
 
@@ -36,7 +36,7 @@ class API::V1::OrganizationsController < ApplicationController
 
   private
     def set_organization
-      @organization = Organization.find(params[:id])
+      @organization = Organization.includes(:members, :service_instances ,:owner).find(params[:id])
     end
 
     def set_owner

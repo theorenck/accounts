@@ -55,7 +55,7 @@ class API::V1::UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.find(params[:id])
+      @user = User.includes(organizations: [:owner]).find(params[:id])
     end
 
     def signin_params
