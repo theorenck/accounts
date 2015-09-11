@@ -9,7 +9,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @user
+    render json: @user.as_json(include: {memberships: {include: {organization: {include: :owner}}}})
   end
 
   def me

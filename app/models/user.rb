@@ -4,19 +4,16 @@ class User < ActiveRecord::Base
 
   has_many :memberships
   has_many :organizations, through: :memberships
-  has_many :profiles, as: :profileable
+  has_one :profile, as: :profileable
 
   validates :username, :email, :password, presence: true
   validates :username, :email, uniqueness: true
 
   def as_json(options={})
-    {
-      id: id,
-      username: username,
-      email: email,
-      created_at: created_at,
-      updated_at: updated_at
-    }
+    p '@@@@@@@@@@@@@@'
+    hash = super
+    hash.delete "token"
+    hash
   end
 
   def update_sign_in_info(remote_ip)

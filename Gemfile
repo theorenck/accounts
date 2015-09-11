@@ -20,7 +20,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'active_type', '~> 0.4.0'
 
 # Making it easy to serialize models for client-side use
-gem 'active_model_serializers', '~> 0.9.3'
+# gem 'active_model_serializers', '~> 0.9.3'
+# gem 'active_model_serializers', '~> 0.10.0.rc2'
+# gem 'active_model_serializers', :git => 'git://github.com/rails-api/active_model_serializers.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
