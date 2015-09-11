@@ -7,7 +7,7 @@ class API::V1::ServiceTypesController < ApplicationController
   end
 
   def show
-    render json: @service_type
+    render json: @service_type.as_json({include:[services:{include:[]}]})
   end
 
   def new

@@ -9,20 +9,23 @@ class User < ActiveRecord::Base
   validates :username, :email, :password, presence: true
   validates :username, :email, uniqueness: true
 
-  def as_json(options={})
-    p '@@@@@@@@@@@@@@'
-    hash = super
-    hash.delete "token"
-    hash
+  def serializable_hash(options = {})
+    super options.merge({
+      only:[
+        :id,
+        :username,
+        :email,
+        :created_at,
+        :updated_at,
+      ]
+    })
   end
 
   def update_sign_in_info(remote_ip)
     self.last_sign_in_ip = current_sign_in_ip
-    self.current_sign_in_ip = remote_ip
-
     self.last_sign_in_at = current_sign_in_at
+    self.current_sign_in_ip = remote_ip
     self.current_sign_in_at = Time.new
-
     self.save
   end
 
@@ -38,5 +41,5 @@ class User < ActiveRecord::Base
         break token unless self.class.exists?(token: token)
       end
     end
-
 end
+

@@ -7,7 +7,7 @@ class API::V1::ServicesController < ApplicationController
   end
 
   def show
-    render json: @user
+    render json: @service.as_json({include:[:type,instances:{include:[organization:{include:[]}]}]})
   end
 
   def new

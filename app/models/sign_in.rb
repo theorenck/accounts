@@ -1,4 +1,4 @@
-class Signin < ActiveType::Object
+class SignIn < ActiveType::Object
 
   after_validation :retrive_user
 
@@ -18,9 +18,7 @@ class Signin < ActiveType::Object
     @user.token
   end
 
-  def as_json(options={})
-    {
-      token: token
-    }
+  def as_json(options = {})
+    {token: token}
   end
 end

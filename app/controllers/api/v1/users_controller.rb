@@ -9,11 +9,11 @@ class API::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @user.as_json(include: {memberships: {include: {organization: {include: :owner}}}})
+    render json: @user.as_json({include:[:organizations]})
   end
 
   def me
-    render json: @authenticated
+    render json: @authenticated.as_json({include:[:organizations]})
   end
 
   def new
@@ -44,7 +44,7 @@ class API::V1::UsersController < ApplicationController
   end
 
   def signin
-    @signin = Signin.new(user_params)
+    @signin = SignIn.new(signin_params)
 
     if @signin.save
       render json: @signin, status: :created
@@ -58,8 +58,12 @@ class API::V1::UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    def user_params
+    def signin_params
       params[:user][:remote_ip] = request.remote_ip
+      params.require(:user).permit(:username, :password, :remote_ip)
+    end
+
+    def user_params
       params.require(:user).permit(:username, :password, :email)
     end
 end

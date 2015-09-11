@@ -1,7 +1,7 @@
 class CreateServiceInstances < ActiveRecord::Migration
   def change
     create_table :service_instances, id: :uuid  do |t|
-      t.string :url
+      t.string :url, unique: true
       t.uuid :service_id
       t.uuid :organization_id
 

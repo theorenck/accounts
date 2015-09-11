@@ -7,18 +7,18 @@ Rails.application.routes.draw do
 
  namespace :api, defaults: { format: 'json' } do
   namespace :v1 do
-
-    resources :users
-    get 'users/me' => 'users#me'
-    post 'users/signin' => 'users#signin'
-    # resources :authentications, only: :create
+    resources :users do
+      collection do
+        get :me
+        post :signin
+      end
+    end
     resources :services
     resources :profiles
-    resources :service_types
+    resources :service_types, :path => '/service-types'
     resources :organizations do
-      resources :memberships
+      resources :memberships, only: [:create, :destroy]
     end
-
   end
  end
 
