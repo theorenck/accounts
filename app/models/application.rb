@@ -1,16 +1,36 @@
 class Application < ActiveRecord::Base
-  has_many :application_instances
+  before_create :set_secret
+
+  has_and_belongs_to_many :organizations,  :join_table => :subscriptions
+  has_many :authorizations
 
   def serializable_hash(options = {})
     super({
       only:[
         :id,
-        :code,
+        :secret,
         :name,
         :description,
+        :version,
+        :redirect_uri,
+        :scopes,
         :created_at,
         :updated_at
       ]
     }.merge(options))
   end
+
+  private
+    def set_secret
+      return if secret.present?
+      self.secret = generate_secret
+    end
+
+    def generate_secret
+      loop do
+        secret = SecureRandom.hex
+        break secret unless self.class.exists?(secret: secret)
+      end
+    end
+
 end

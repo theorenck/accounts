@@ -7,7 +7,7 @@ class API::V1::ApplicationsController < ApplicationController
   end
 
   def show
-    render json: @application#.as_json({include:[:owner,:members,:service_instances]})
+    render json: @application
   end
 
   def create
@@ -34,12 +34,12 @@ class API::V1::ApplicationsController < ApplicationController
   end
 
   private
-    def set_application
+    def set_application_instance
       @application = Application.find(params[:id])
     end
 
     def application_params
-      params.require(:application).permit(:id, :name, :code, :description)
+      params.require(:application).permit(:url, :version, :name, :code, :description)
     end
 
 end

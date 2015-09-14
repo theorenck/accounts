@@ -1,6 +1,6 @@
 class Authorization < ActiveRecord::Base
   belongs_to :membership
-  belongs_to :application_instance
+  belongs_to :application
 
   has_one :user, :through => :membership
   has_one :organization, :through => :membership
@@ -9,11 +9,12 @@ class Authorization < ActiveRecord::Base
     super({
       only:[
         :id,
+        :scopes,
         :created_at,
         :updated_at
       ],
       include:[
-        :application_instance,
+        :application,
         :organization
       ]
     }.merge(options))
