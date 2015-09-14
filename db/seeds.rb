@@ -8,8 +8,7 @@ v1 = Service.create(version: 'v1', type_id: middleware.id)
 
 ServiceInstance.create(service: v1, organization: zeta, url:'http://zetainfo.dyndns.info')
 
-dash = Application.create(code: 'dash', name: 'Zeta Dashboards', description: 'Aplicação de dashboards da Zeta')
-dash_v1 = ApplicationInstance.create(version: 'v1.0.0', url: 'http://hidden-wave-6476.herokuapp.com', application: dash)
+dash_v1 = ApplicationInstance.create(version: 'v1.0.0', url: 'http://hidden-wave-6476.herokuapp.com', code: 'dash', name: 'Zeta Dashboards', description: 'Aplicação de dashboards da Zeta')
 zeta.application_instances << dash_v1
 zeta.save
 

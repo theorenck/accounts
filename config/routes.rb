@@ -13,7 +13,7 @@ Rails.application.routes.draw do
         post :signin
       end
     end
-    resources :applications
+    # resources :applications
     resources :application_instances, :path => '/application-instances'
     resources :services
     resources :profiles

@@ -39,7 +39,7 @@ class API::V1::ApplicationInstancesController < ApplicationController
     end
 
     def application_instance_params
-      params.require(:application_instance).permit(:url, :version)
+      params.require(:application_instance).permit(:url, :version, :name, :code, :description)
     end
 
 end

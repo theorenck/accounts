@@ -1,5 +1,5 @@
 class ApplicationInstance < ActiveRecord::Base
-  belongs_to :application
+
   has_and_belongs_to_many :organizations,  :join_table => :subscriptions
   has_many :authorizations
 
@@ -7,13 +7,13 @@ class ApplicationInstance < ActiveRecord::Base
     super({
       only:[
         :id,
-        :url,
         :version,
+        :code,
+        :name,
+        :description,
+        :url,
         :created_at,
         :updated_at
-      ],
-      include:[
-        :application
       ]
     }.merge(options))
   end

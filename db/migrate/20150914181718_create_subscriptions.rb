@@ -6,6 +6,6 @@ class CreateSubscriptions < ActiveRecord::Migration
      t.timestamps null: false
     end
     add_index :subscriptions, [:application_instance_id, :organization_id],
-      unique: true, name: 'index_subscriptions_on_app_instance_and_organization'
+      unique: true, name: 'index_subscriptions_on_application_and_organization'
   end
 end
