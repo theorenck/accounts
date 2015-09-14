@@ -39,7 +39,7 @@ class API::V1::ServiceTypesController < ApplicationController
 
   private
     def set_service_type
-      @service_type = ServiceType.find(params[:id])
+      @service_type = ServiceType.includes(:services).find(params[:id])
     end
 
     def service_type_params

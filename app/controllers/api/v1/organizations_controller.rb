@@ -36,7 +36,7 @@ class API::V1::OrganizationsController < ApplicationController
 
   private
     def set_organization
-      @organization = Organization.includes(:members, :service_instances ,:owner).find(params[:id])
+      @organization = Organization.includes(:owner, :members, service_instances: [service:[:type]]).find(params[:id])
     end
 
     def set_owner

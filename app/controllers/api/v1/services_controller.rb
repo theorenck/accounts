@@ -2,7 +2,7 @@ class API::V1::ServicesController < ApplicationController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @services = Service.all
+    @services = Service.includes(:type).all
     render json: @services
   end
 
@@ -39,11 +39,10 @@ class API::V1::ServicesController < ApplicationController
 
   private
     def set_service
-      @service = Service.find(params[:id])
+      @service = Service.includes(:type, instances:[:organization]).find(params[:id])
     end
 
     def service_params
-      # params[:service]
       params.require(:service).permit(:version, :organization_id, :type_id)
     end
 end
