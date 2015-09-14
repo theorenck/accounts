@@ -43,6 +43,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (6.0.2)
+    choice (0.2.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     globalid (0.3.6)
@@ -79,6 +80,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.4.2)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     railties (4.2.1)
@@ -89,6 +95,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    ruby-graphviz (1.2.2)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -118,6 +125,7 @@ DEPENDENCIES
   byebug
   pg
   rails (= 4.2.1)
+  rails-erd (~> 1.4.2)
   sdoc (~> 0.4.0)
   tzinfo-data
   web-console (~> 2.0)
