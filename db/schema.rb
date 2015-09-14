@@ -18,12 +18,12 @@ ActiveRecord::Schema.define(version: 20150914145511) do
   enable_extension "uuid-ossp"
 
   create_table "app_instances_organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.uuid "application_instance"
-    t.uuid "organization"
+    t.uuid "application_instance_id"
+    t.uuid "organization_id"
   end
 
-  add_index "app_instances_organizations", ["application_instance"], name: "index_app_instances_organizations_on_application_instance", using: :btree
-  add_index "app_instances_organizations", ["organization"], name: "index_app_instances_organizations_on_organization", using: :btree
+  add_index "app_instances_organizations", ["application_instance_id"], name: "index_app_instances_organizations_on_application_instance_id", using: :btree
+  add_index "app_instances_organizations", ["organization_id"], name: "index_app_instances_organizations_on_organization_id", using: :btree
 
   create_table "application_instances", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "url"

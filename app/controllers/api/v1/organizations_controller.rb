@@ -8,7 +8,7 @@ class API::V1::OrganizationsController < ApplicationController
   end
 
   def show
-    render json: @organization.as_json({include:[:owner,:members,:service_instances]})
+    render json: @organization.as_json({include:[:owner,:members,:service_instances, :application_instances]})
   end
 
   def create
