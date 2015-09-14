@@ -53,7 +53,7 @@ class API::V1::OrganizationsController < ApplicationController
         memberships_attributes: [:user_id],
         services_attributes: [:name,
           :description,
-          :url,
+          :uri,
           :organization_id,
           :type_id
         ]

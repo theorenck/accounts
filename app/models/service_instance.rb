@@ -2,14 +2,14 @@ class ServiceInstance < ActiveRecord::Base
   belongs_to :service
   belongs_to :organization
 
-  validates :url, :service, :organization, presence: true
-  validates :url, uniqueness: true
+  validates :uri, :service, :organization, presence: true
+  validates :uri, uniqueness: true
 
   def serializable_hash(options = {})
     super({
       only:[
         :id,
-        :url,
+        :uri,
         :created_at,
         :updated_at,
       ],

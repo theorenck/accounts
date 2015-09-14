@@ -6,7 +6,7 @@ zeta_admin = Membership.create(organization:zeta, user:admin)
 middleware = ServiceType.create(code: 'middleware', name: 'Zeta Middleware', description: 'O Middleware API da Zeta torna possível a integração entre nossas novas soluções para web e mobile e a versão desktop de nosso ERP.')
 v1 = Service.create(version: 'v1', type_id: middleware.id)
 
-ServiceInstance.create(service: v1, organization: zeta, url:'http://zetainfo.dyndns.info')
+ServiceInstance.create(service: v1, organization: zeta, uri:'http://zetainfo.dyndns.info')
 
 dash_v1 = Application.create(version: 'v1.0.0',
   redirect_uri: 'http://hidden-wave-6476.herokuapp.com',
