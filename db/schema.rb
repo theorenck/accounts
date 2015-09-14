@@ -11,16 +11,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911194309) do
+ActiveRecord::Schema.define(version: 20150914145511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
-  create_table "legacy_integrations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "app_instances_organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid "application_instance"
+    t.uuid "organization"
   end
+
+  add_index "app_instances_organizations", ["application_instance"], name: "index_app_instances_organizations_on_application_instance", using: :btree
+  add_index "app_instances_organizations", ["organization"], name: "index_app_instances_organizations_on_organization", using: :btree
+
+  create_table "application_instances", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "url"
+    t.string   "version"
+    t.uuid     "application_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "applications", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "legacy_integrations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "username"
+    t.string   "code"
+    t.string   "branches",                   array: true
+    t.uuid     "membership_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "legacy_integrations", ["branches"], name: "index_legacy_integrations_on_branches", using: :gin
+  add_index "legacy_integrations", ["membership_id"], name: "index_legacy_integrations_on_membership_id", using: :btree
 
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
