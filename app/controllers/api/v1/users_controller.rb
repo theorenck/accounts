@@ -9,11 +9,11 @@ class API::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @user.as_json({include:[:organizations]})
+    render json: @user.as_json({include:[:organizations,:authorizations]})
   end
 
   def me
-    render json: @authenticated.as_json({include:[:organizations]})
+    render json: @authenticated.as_json({include:[:organizations,:authorizations]})
   end
 
   def new

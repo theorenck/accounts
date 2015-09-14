@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :memberships
   has_many :organizations, through: :memberships
+  has_many :authorizations, through: :memberships
   has_one :profile, as: :profileable
 
   validates :username, :email, :password, presence: true
@@ -42,4 +43,3 @@ class User < ActiveRecord::Base
       end
     end
 end
-

@@ -4,7 +4,7 @@ class API::V1::OrganizationsController < ApplicationController
 
   def index
     @organizations = Organization.includes(:owner).all
-    render json: @organizations
+    render json: @organizations.as_json({include:[:owner]})
   end
 
   def show
@@ -15,7 +15,7 @@ class API::V1::OrganizationsController < ApplicationController
     @organization = Organization.new(organization_params)
 
     if @organization.save
-      render json: @organization
+      render json: @organization.as_json({include:[:owner]})
     else
       render json: @organization.errors, status: :unprocessable_entity
     end
@@ -23,7 +23,7 @@ class API::V1::OrganizationsController < ApplicationController
 
   def update
     if @organization.update(organization_params)
-      render json: @organization, status: :ok
+      render json: @organization.as_json({include:[:owner]}), status: :ok
     else
       render json: @organization.errors, status: :unprocessable_entity
     end

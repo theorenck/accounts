@@ -11,19 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914145511) do
+ActiveRecord::Schema.define(version: 20150914192926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
-
-  create_table "app_instances_organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.uuid "application_instance_id"
-    t.uuid "organization_id"
-  end
-
-  add_index "app_instances_organizations", ["application_instance_id"], name: "index_app_instances_organizations_on_application_instance_id", using: :btree
-  add_index "app_instances_organizations", ["organization_id"], name: "index_app_instances_organizations_on_organization_id", using: :btree
 
   create_table "application_instances", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "url"
@@ -40,6 +32,15 @@ ActiveRecord::Schema.define(version: 20150914145511) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "authorizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "application_instance_id"
+    t.uuid     "membership_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "authorizations", ["application_instance_id", "membership_id"], name: "index_authorizations_on_app_instance_and_membership", unique: true, using: :btree
 
   create_table "legacy_integrations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "username"
@@ -107,6 +108,15 @@ ActiveRecord::Schema.define(version: 20150914145511) do
   end
 
   add_index "services", ["type_id"], name: "index_services_on_type_id", using: :btree
+
+  create_table "subscriptions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "application_instance_id"
+    t.uuid     "organization_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "subscriptions", ["application_instance_id", "organization_id"], name: "index_subscriptions_on_app_instance_and_organization", unique: true, using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "username"

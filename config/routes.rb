@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
     end
     resources :applications
-    resources :application_instances
+    resources :application_instances, :path => '/application-instances'
     resources :services
     resources :profiles
     resources :service_types, :path => '/service-types'

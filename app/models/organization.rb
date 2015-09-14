@@ -22,9 +22,6 @@ class Organization < ActiveRecord::Base
         :name,
         :created_at,
         :updated_at
-      ],
-      include:[
-        :owner
       ]
     }.merge(options))
   end

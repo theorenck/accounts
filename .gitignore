@@ -13,5 +13,4 @@
 /tmp
 
 # Ignore development bats
-reset.bat
-run.bat
+*.bat
