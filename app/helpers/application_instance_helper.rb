@@ -1,0 +1,2 @@
+module ApplicationInstanceHelper
+end

@@ -7,7 +7,7 @@ class API::V1::ApplicationsController < ApplicationController
   end
 
   def show
-    render json: @aplication#.as_json({include:[:owner,:members,:service_instances]})
+    render json: @application#.as_json({include:[:owner,:members,:service_instances]})
   end
 
   def create
