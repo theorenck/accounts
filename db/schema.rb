@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20150914192926) do
     t.uuid     "application_id"
     t.uuid     "membership_id"
     t.string   "scopes",         default: [],              array: true
+    t.datetime "revoked_at"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
@@ -79,7 +80,7 @@ ActiveRecord::Schema.define(version: 20150914192926) do
   add_index "profiles", ["profileable_id", "profileable_type"], name: "index_profiles_on_profileable_id_and_profileable_type", unique: true, using: :btree
 
   create_table "service_instances", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "url"
+    t.string   "uri"
     t.uuid     "service_id"
     t.uuid     "organization_id"
     t.datetime "created_at",      null: false

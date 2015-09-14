@@ -4,6 +4,7 @@ class CreateAuthorizations < ActiveRecord::Migration
       t.uuid :application_id
       t.uuid :membership_id
       t.string :scopes, array: true, default: []
+      t.timestamp :revoked_at 
       t.timestamps null: false
     end
     add_index :authorizations, [:application_id, :membership_id],

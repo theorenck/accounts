@@ -10,6 +10,7 @@ class Authorization < ActiveRecord::Base
       only:[
         :id,
         :scopes,
+        :revoked_at,
         :created_at,
         :updated_at
       ],
