@@ -50,6 +50,7 @@ GEM
       activesupport (>= 4.1.0)
     i18n (0.7.0)
     json (1.8.3)
+    jwt (1.5.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -123,6 +124,7 @@ PLATFORMS
 DEPENDENCIES
   active_type (~> 0.4.0)
   byebug
+  jwt (~> 1.5.1)
   pg
   rails (= 4.2.1)
   rails-erd (~> 1.4.2)

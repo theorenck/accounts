@@ -13,6 +13,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# JSON Web Token implementation in Ruby
+gem 'jwt', '~> 1.5.1'
+
+# Backported from Rails 5.0 to use with 4.x versions
+gem 'active_model-errors_details', '~> 1.1.1'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
