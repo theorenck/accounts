@@ -9,9 +9,10 @@ class User < ActiveRecord::Base
 
   validates :username, :email, :password, presence: true
   validates :username, :email, uniqueness: true
+  validates :username, length: { in: 6..20 }
 
   def serializable_hash(options = {})
-    super options.merge({
+    super({
       only:[
         :id,
         :username,
@@ -19,7 +20,7 @@ class User < ActiveRecord::Base
         :created_at,
         :updated_at,
       ]
-    })
+    }.merge(options))
   end
 
   def update_sign_in_info(remote_ip)
