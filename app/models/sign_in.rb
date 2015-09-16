@@ -19,6 +19,6 @@ class SignIn < ActiveType::Object
   end
 
   def as_json(options = {})
-    {token: token}
+    { token: token }
   end
 end

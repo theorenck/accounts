@@ -4,6 +4,9 @@ class Application < ActiveRecord::Base
   has_and_belongs_to_many :organizations,  :join_table => :subscriptions
   has_many :authorizations
 
+  validates :name, :version, :redirect_uri, presence: true
+  validates :redirect_uri, uniqueness: true
+
   def serializable_hash(options = {})
     super({
       only:[

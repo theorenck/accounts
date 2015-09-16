@@ -8,7 +8,11 @@ class API::V1::OrganizationsController < ApplicationController
   end
 
   def show
-    render json: @organization.as_json({include:[:owner,:members,:service_instances, :application_instances]})
+    if @organization
+      render json: @organization.as_json({include:[:owner,:members,:service_instances, :application_instances]})
+    else
+      render json: {message: 'Not found'}, status: :not_found
+    end
   end
 
   def create
@@ -17,7 +21,7 @@ class API::V1::OrganizationsController < ApplicationController
     if @organization.save
       render json: @organization.as_json({include:[:owner]})
     else
-      render json: @organization.errors, status: :unprocessable_entity
+      render json: { errors: @organization.errors }, status: :unprocessable_entity
     end
   end
 
@@ -36,14 +40,16 @@ class API::V1::OrganizationsController < ApplicationController
 
   private
     def set_organization
-      @organization = Organization.includes(:owner, :members, service_instances: [service:[:type]]).find(params[:id])
+      @organization = Organization.includes(:owner, :members, service_instances: [service:[:type]]).find_by(id: params[:id])
     end
 
     def set_owner
-      params[:organization][:owner_id] = @authenticated.id
-      params[:organization][:memberships_attributes] = []
-      params[:organization][:memberships_attributes][0] = {}
-      params[:organization][:memberships_attributes][0][:user_id] = params[:organization][:owner_id]
+      if params[:organization]
+        params[:organization][:owner_id] = @authenticated.id
+        params[:organization][:memberships_attributes] = []
+        params[:organization][:memberships_attributes][0] = {}
+        params[:organization][:memberships_attributes][0][:user_id] = params[:organization][:owner_id]
+      end
     end
 
     def organization_params

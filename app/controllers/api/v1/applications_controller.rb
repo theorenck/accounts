@@ -7,7 +7,11 @@ class API::V1::ApplicationsController < ApplicationController
   end
 
   def show
-    render json: @application
+    if @application
+      render json: @application
+    else
+      render json: {message: 'Not found'}, status: :not_found
+    end
   end
 
   def create
@@ -16,7 +20,7 @@ class API::V1::ApplicationsController < ApplicationController
     if @application.save
       render json: @application
     else
-      render json: @application.errors, status: :unprocessable_entity
+      render json: { errors: @application.errors }, status: :unprocessable_entity
     end
   end
 
@@ -24,7 +28,7 @@ class API::V1::ApplicationsController < ApplicationController
     if @application.update(application_params)
       render json: @application, status: :ok
     else
-      render json: @application.errors, status: :unprocessable_entity
+      render json: { errors: @application.errors }, status: :unprocessable_entity
     end
   end
 
@@ -35,7 +39,7 @@ class API::V1::ApplicationsController < ApplicationController
 
   private
     def set_application_instance
-      @application = Application.find(params[:id])
+      @application = Application.find_by(id: params[:id])
     end
 
     def application_params

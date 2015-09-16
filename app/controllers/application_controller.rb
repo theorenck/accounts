@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  # protect_from_forgery with: :exception
-
-	include ActionController::HttpAuthentication::Token::ControllerMethods
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 	before_action :authenticate
+
+	def page_not_found
+    render json: {message: 'Not found'}, status: :not_found
+  end
 
 	protected
 

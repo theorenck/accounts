@@ -7,11 +7,11 @@ class API::V1::ServiceTypesController < ApplicationController
   end
 
   def show
-    render json: @service_type.as_json({include:[services:{include:[]}]})
-  end
-
-  def new
-    @service_type = ServiceType.new
+    if @service_type
+      render json: @service_type.as_json({include:[services:{include:[]}]})
+    else
+      render json: {message: 'Not found'}, status: :not_found
+    end
   end
 
   def create
@@ -20,7 +20,7 @@ class API::V1::ServiceTypesController < ApplicationController
     if @service_type.save
       render json: @service_type
     else
-      render json: @service_type.errors, status: :unprocessable_entity
+      render json: { errors: @service_type.errors }, status: :unprocessable_entity
     end
   end
 
@@ -28,7 +28,7 @@ class API::V1::ServiceTypesController < ApplicationController
     if @service_type.update(service_type_params)
       render json: @service_type, status: :ok
     else
-      render json: @service_type.errors, status: :unprocessable_entity
+      render json: { errors: @service_type.errors }, status: :unprocessable_entity
     end
   end
 
@@ -39,7 +39,7 @@ class API::V1::ServiceTypesController < ApplicationController
 
   private
     def set_service_type
-      @service_type = ServiceType.includes(:services).find(params[:id])
+      @service_type = ServiceType.includes(:services).find_by(id: params[:id])
     end
 
     def service_type_params

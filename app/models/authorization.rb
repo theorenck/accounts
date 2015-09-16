@@ -5,6 +5,8 @@ class Authorization < ActiveRecord::Base
   has_one :user, :through => :membership
   has_one :organization, :through => :membership
 
+  validates :membership, :application, presence: true
+
   def serializable_hash(options = {})
     super({
       only:[

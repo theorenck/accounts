@@ -7,7 +7,8 @@ class Membership < ActiveRecord::Base
 
  	has_one :integration, class_name: 'LegacyIntegration'
 
-  validates :user, :organization, presence: true
+  validates :user, presence: true
+	# validates :organization, presence: true
 
   def serializable_hash(options = {})
     super({

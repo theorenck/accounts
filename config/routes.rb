@@ -23,7 +23,10 @@ Rails.application.routes.draw do
   end
  end
 
-
+ if Rails.env.production?
+    get '*foo', :to => 'application#page_not_found'
+  end
+ # get  => 'api/v1/users#teste'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

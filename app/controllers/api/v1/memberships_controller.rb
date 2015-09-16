@@ -6,7 +6,7 @@ class API::V1::MembershipsController < ApplicationController
     if @membership.save
       render json: @membership
     else
-      render json: @membership.errors, status: :unprocessable_entity
+      render json: { errors: @membership.errors }, status: :unprocessable_entity
     end
   end
 
@@ -18,7 +18,7 @@ class API::V1::MembershipsController < ApplicationController
   private
 
     def set_membership
-      @membership = Membership.find(params[:id])
+      @membership = Membership..find_by(id: params[:id])
     end
 
     def membership_params

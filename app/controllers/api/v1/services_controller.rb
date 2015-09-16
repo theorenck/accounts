@@ -7,11 +7,11 @@ class API::V1::ServicesController < ApplicationController
   end
 
   def show
-    render json: @service.as_json({include:[:type,instances:{include:[organization:{include:[]}]}]})
-  end
-
-  def new
-    @service = Service.new
+    if @service
+      render json: @service.as_json({include:[:type,instances:{include:[organization:{include:[]}]}]})
+    else
+      render json: {message: 'Not found'}, status: :not_found
+    end
   end
 
   def create
@@ -20,7 +20,7 @@ class API::V1::ServicesController < ApplicationController
     if @service.save
       render json: @service
     else
-      render json: @service.errors, status: :unprocessable_entity
+      render json: { errors: @service.errors }, status: :unprocessable_entity
     end
   end
 
@@ -28,7 +28,7 @@ class API::V1::ServicesController < ApplicationController
     if @service.update(service_params)
       render json: @service, status: :ok
     else
-      render json: @service.errors, status: :unprocessable_entity
+      render json: { errors: @service.errors }, status: :unprocessable_entity
     end
   end
 
@@ -39,7 +39,7 @@ class API::V1::ServicesController < ApplicationController
 
   private
     def set_service
-      @service = Service.includes(:type, instances:[:organization]).find(params[:id])
+      @service = Service.includes(:type, instances:[:organization]).find_by(id: params[:id])
     end
 
     def service_params

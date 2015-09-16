@@ -1,5 +1,4 @@
 class API::V1::UsersController < ApplicationController
-
   before_action :authenticate, except: [:create, :signin]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -9,15 +8,15 @@ class API::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: @user.as_json({include:[:organizations,:authorizations]})
+    if @user
+      render json: @user.as_json({include:[:organizations,:authorizations]})
+    else
+      render json: {message: 'Not found'}, status: :not_found
+    end
   end
 
   def me
     render json: @authenticated.as_json({include:[:organizations,:authorizations]})
-  end
-
-  def new
-    @user = User.new
   end
 
   def create
@@ -26,7 +25,7 @@ class API::V1::UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: { errors: @user.errors }, status: :unprocessable_entity
     end
   end
 
@@ -34,7 +33,7 @@ class API::V1::UsersController < ApplicationController
     if @user.update(user_params)
       render json: @user, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: { errors: @user.errors }, status: :unprocessable_entity
     end
   end
 
@@ -55,7 +54,7 @@ class API::V1::UsersController < ApplicationController
 
   private
     def set_user
-      @user = User.includes(organizations: [:owner]).find(params[:id])
+      @user = User.includes(organizations: [:owner]).find_by(id: params[:id])
     end
 
     def signin_params
@@ -66,4 +65,5 @@ class API::V1::UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:username, :password, :email)
     end
+
 end
