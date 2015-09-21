@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates :username, :email, uniqueness: true
   validates :username, length: { in: 6..20 }
   validates :email, length: { in: 6..60 }
-  validates :password, :format => {:with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,}\z/, message: "must be at least 6 characters and include one number and one letter."}
+  # validates :password, :format => {:with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{6,}\z/, message: "must be at least 6 characters and include one number and one letter."}
 
   def serializable_hash(options = {})
     super({
