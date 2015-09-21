@@ -10,7 +10,7 @@ class CatchJsonParseErrors
     rescue ActionDispatch::ParamsParser::ParseError => error
       # if env['HTTP_ACCEPT'] =~ /application\/json/
       if env['HTTP_ACCEPT'] =~ /.*\/.*/
-        error_output = "There was a problem in the JSON you submitted."#: #{error}"
+        error_output = "There was a problem in the JSON structure you submitted."#: #{error}"
         return [
           422, { "Content-Type" => "application/json" },
           [ { error: error_output }.to_json ]
