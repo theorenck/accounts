@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  before_create :set_token
+  before_create :set_token, :send_mail
 
   has_many :memberships
   has_many :organizations, through: :memberships
@@ -44,5 +44,9 @@ class User < ActiveRecord::Base
         token = SecureRandom.hex
         break token unless self.class.exists?(token: token)
       end
+    end
+
+    def send_mail
+      ModelMailer.new_record_notification(self.email).deliver_now
     end
 end
