@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
-  before_create :set_token, :send_mail
+  before_create :set_token
+  after_create :send_activation_mail
 
   has_many :memberships
   has_many :organizations, through: :memberships
@@ -33,6 +34,15 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def activation_url
+    "http://127.0.0.1:3000/api/v1/users/activation?activation_token="+self.activation_token.to_s
+  end
+
+  def active
+    self.activated = true
+    self.save
+  end
+
   private
     def set_token
       return if token.present?
@@ -46,7 +56,10 @@ class User < ActiveRecord::Base
       end
     end
 
-    def send_mail
-      ModelMailer.new_record_notification(self.email).deliver_now
+    def send_activation_mail
+      self.activation_token = SecureRandom.hex
+      self.save
+      ModelMailer.new_record_notification(self).deliver_now
     end
+
 end

@@ -38,3 +38,6 @@ group :development, :test do
   # Automatically generate an entity-relationship diagram (ERD) for your Rails models.
   gem 'rails-erd', '~> 1.4.2'
 end
+
+# Easy and powerful exception tracking for Ruby
+# gem 'rollbar', '~> 2.3.0'

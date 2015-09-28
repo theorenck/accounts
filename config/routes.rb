@@ -9,8 +9,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users do
         collection do
-          get :me
           post :signin
+          post :retrieve_password, :path => '/retrieve-password'
+          get :me
+          get :activation
         end
       end
       resources :applications
@@ -18,7 +20,11 @@ Rails.application.routes.draw do
       resources :profiles
       resources :service_types, :path => '/service-types'
       resources :organizations do
-        resources :memberships
+        resources :memberships do
+          collection do
+            get :authorize
+          end
+        end
       end
     end
   end

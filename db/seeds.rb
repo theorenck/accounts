@@ -1,7 +1,12 @@
 
-admin = User.create(username: 'administrator', email: 'carlos.renck@zeta.com', password: 'Admin1', token:'3c897fa3098770eef3ed71e314d4c2b1')
+admin = User.create(username: 'administrator',
+                    email: 'carlos.renck@zeta.com',
+                    password: 'administrator',
+                    token:'3c897fa3098770eef3ed71e314d4c2b1',
+                    activated: true )
+
 zeta = Organization.create(name: 'Zeta Informática', owner_id: admin.id)
-zeta_admin = Membership.create(organization:zeta, user:admin)
+zeta_admin = Membership.create(organization:zeta, user:admin, authorized: true)
 
 middleware = ServiceType.create(code: 'middleware', name: 'Zeta Middleware', description: 'O Middleware API da Zeta torna possível a integração entre nossas novas soluções para web e mobile e a versão desktop de nosso ERP.')
 v1 = Service.create(version: 'v1', type_id: middleware.id)

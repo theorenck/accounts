@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(version: 20150914192926) do
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "user_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "authorized",      default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "memberships", ["organization_id", "user_id"], name: "index_memberships_on_organization_id_and_user_id", unique: true, using: :btree
@@ -120,12 +121,15 @@ ActiveRecord::Schema.define(version: 20150914192926) do
     t.string   "email"
     t.string   "password"
     t.string   "token"
+    t.string   "activation_token"
+    t.boolean  "activated",                  default: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
+    t.datetime "last_password_retrieval_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
 end

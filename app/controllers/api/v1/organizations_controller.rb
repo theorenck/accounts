@@ -9,7 +9,7 @@ class API::V1::OrganizationsController < ApplicationController
 
   def show
     if @organization
-      render json: @organization.as_json({include:[:owner,:members,:service_instances, :application_instances]})
+      render json: @organization.as_json({include:[:owner,:members,:service_instances, :applications]})
     else
       render json: {message: 'Not found'}, status: :not_found
     end

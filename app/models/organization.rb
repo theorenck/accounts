@@ -18,11 +18,16 @@ class Organization < ActiveRecord::Base
   def serializable_hash(options = {})
     super({
       only:[
-        :id,
+				:id,
         :name,
         :created_at,
         :updated_at
       ]
     }.merge(options))
   end
+
+	def owned_by(id)
+		true ? self.owner_id == id : false
+	end
+
 end

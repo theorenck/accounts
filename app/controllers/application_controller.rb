@@ -2,10 +2,6 @@ class ApplicationController < ActionController::Base
   include ActionController::HttpAuthentication::Token::ControllerMethods
 	before_action :authenticate
 
-	def page_not_found
-    render json: {message: 'Not found'}, status: :not_found
-  end
-
 	protected
 
     def authenticate
@@ -14,13 +10,28 @@ class ApplicationController < ActionController::Base
 
     def authenticate_token
       authenticate_with_http_token do |token, options|
-        @authenticated = User.find_by(token: token)
+
+        begin
+          @authenticated = User.find_by(token: token)
+          unless @authenticated.activated
+            render_not_activated
+          else
+            @authenticated
+          end
+        rescue => exception
+          render_unauthorized
+        end
+
       end
     end
 
     def render_unauthorized
       self.headers['WWW-Authenticate'] = 'Token realm="API"'
       render json: {message: 'Bad credentials'}, status: :unauthorized
+    end
+
+    def render_not_activated
+      render json: {message: 'User not activated'}, status: :unauthorized
     end
 
 end
