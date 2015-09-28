@@ -53,9 +53,8 @@ class API::V1::UsersController < ApplicationController
   end
 
   def activation
-    @user = User.find_by(activation_token: params[:activation_token])
-    unless @user.activated?
-      @user.active
+    @active_user = ActiveUser.new(activation_token: params[:activation_token])
+    if @active_user.active
       render json: {message: 'Activation success'}, status: 200
     else
       render json: {message: 'Not found'}, status: 404
