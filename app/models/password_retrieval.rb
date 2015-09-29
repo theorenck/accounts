@@ -9,7 +9,7 @@ class PasswordRetrieval < ActiveType::Object
       @user.password = SecureRandom.hex(4)
       @user.last_password_retrieval_at = Time.new
       @user.save
-      RetrievePassword.retrieve_password_notification(@user).deliver_now
+      UserMailer.retrieve_password_notification(@user).deliver_now
     rescue => ex
       false
     end

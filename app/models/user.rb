@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
     def send_activation_mail
       self.activation_token = SecureRandom.hex
       self.save
-      ModelMailer.new_record_notification(self).deliver_now
+      UserMailer.new_record_notification(self).deliver_now
     end
 
 end
