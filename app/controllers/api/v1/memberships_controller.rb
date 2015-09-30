@@ -1,11 +1,7 @@
 class API::V1::MembershipsController < ApplicationController
-  before_action :set_authorized, only: [:create]
-  before_action :set_membership, only: [:edit, :update, :destroy]
 
-  def index
-    @memberships = Membership.find_my(params[:authorized],@authenticated.id)
-    render json: @memberships.as_json({include:[:user,:organization]})
-  end
+  before_action :set_authorized, only: [:create, :destroy]
+  before_action :set_membership, only: [:edit, :update, :destroy]
 
   def create
     @membership = Membership.new(membership_params)
@@ -14,11 +10,6 @@ class API::V1::MembershipsController < ApplicationController
     else
       render json: { errors: @membership.errors }, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    @membership.destroy
-    head :no_content
   end
 
   def authorize
@@ -31,20 +22,33 @@ class API::V1::MembershipsController < ApplicationController
     end
   end
 
+  def pending
+    @memberships = Membership.joins(:organization).where(authorized: false, :organizations => {:owner_id => @authenticated.id })
+    render json: @memberships.as_json({include: :user})
+  end
+
+  def destroy
+    if @authenticated_is_owner
+      @membership.destroy
+      head :no_content
+    else
+      render json: { message: 'Not authorized'}, status: 203
+    end
+  end
+
   private
     def set_membership
       @membership = Membership.find_by(id: params[:id])
     end
 
     def set_authorized
-      organization = Organization.find_by(id: params[:membership][:organization_id])
+      organization = Organization.find_by(id: params[:organization_id])
       if organization.owned_by @authenticated.id
-        params[:membership][:authorized] = true
+        @authenticated_is_owner = params[:membership][:authorized] = true
       end
     end
 
     def membership_params
-      # set_authorized
       params[:membership][:organization_id] = params[:organization_id]
       params.require(:membership).permit(:user_id, :organization_id, :authorized)
     end

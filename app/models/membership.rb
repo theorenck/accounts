@@ -32,11 +32,4 @@ class Membership < ActiveRecord::Base
 		MembershipAuthorization.authorized_notification(self).deliver_now
   end
 
-	def self.find_my(authorized, authenticated_id)
-		if authorized
-      Membership.joins(:organization).where(authorized: authorized, :organizations => {:owner_id => authenticated_id })
-    else
-      Membership.joins(:organization).where(:organizations => {:owner_id => authenticated_id })
-    end
-	end
 end

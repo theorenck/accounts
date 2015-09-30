@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         resources :memberships do
           collection do
             get :authorize
+            get :pending
           end
         end
       end

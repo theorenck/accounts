@@ -1,3 +1,9 @@
 <h1>Bem vindo!</h1>
 
-Para ativar seu cadastro acesse <%=h @user.activation_url %>
+Para ativar seu cadastro
+<%= link_to "Clique aqui",
+  controller: "api/v1/users", 
+  action: "activation",
+  host: 'prod-04',
+  port: 3000,
+  activation_token: @user.activation_token %>
