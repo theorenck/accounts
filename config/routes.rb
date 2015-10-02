@@ -15,6 +15,7 @@ Rails.application.routes.draw do
           get :activation
         end
       end
+      resources :accounts
       resources :applications
       resources :services
       resources :profiles
