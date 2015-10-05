@@ -1,26 +1,24 @@
 class Account < ActiveRecord::Base
-  # self.primary_key = "id"
 
-  def as_json(options={})
-    {
-      id: id,
-      name: name,
-      version: version,
-      redirect_uri: redirect_uri,
-      scopes: scopes
-    }
-  end
+  # def as_json(options={})
+  #   {
+  #     user: {
+  #       id: user_id,
+  #       username: username,
+  #       email: email
+  #     },
+  #     organization_id: organization_id,
+  #     application_id: application_id,
+  #     authorization_id: authorization_id
+  # }
+  # end
 
-  def serializable_hash(options = {})
-    super({
-      only:[
-        :id,
-        :name,
-        :version,
-        :redirect_uri,
-        :scopes
-      ]
-    }.merge(options))
-  end
-  
+  # def serializable_hash(options = {})
+  #   super({
+  #     only:[
+  #       # :username
+  #     ]
+  #   }.merge(options))
+  # end
+
 end
