@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930201712) do
+ActiveRecord::Schema.define(version: 20151006184034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
-  enable_extension "hstore"
 
   create_table "applications", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
@@ -43,13 +42,13 @@ ActiveRecord::Schema.define(version: 20150930201712) do
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "user_id"
-    t.boolean  "authorized",          default: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.hstore   "legacy_integrations"
+    t.boolean  "authorized",         default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.jsonb    "legacy_integration", default: {},    null: false
   end
 
-  add_index "memberships", ["legacy_integrations"], name: "index_memberships_on_legacy_integrations", using: :gin
+  add_index "memberships", ["legacy_integration"], name: "index_memberships_on_legacy_integration", using: :gin
   add_index "memberships", ["organization_id", "user_id"], name: "index_memberships_on_organization_id_and_user_id", unique: true, using: :btree
 
   create_table "organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
