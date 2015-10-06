@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20150930201712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+  enable_extension "hstore"
 
   create_table "applications", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
@@ -39,26 +40,16 @@ ActiveRecord::Schema.define(version: 20150930201712) do
 
   add_index "authorizations", ["application_id", "membership_id"], name: "index_authorizations_on_application_and_membership", unique: true, using: :btree
 
-  create_table "legacy_integrations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "username"
-    t.string   "code"
-    t.string   "branches",      default: [],              array: true
-    t.uuid     "membership_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "legacy_integrations", ["branches"], name: "index_legacy_integrations_on_branches", using: :gin
-  add_index "legacy_integrations", ["membership_id"], name: "index_legacy_integrations_on_membership_id", using: :btree
-
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "user_id"
-    t.boolean  "authorized",      default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "authorized",          default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.hstore   "legacy_integrations"
   end
 
+  add_index "memberships", ["legacy_integrations"], name: "index_memberships_on_legacy_integrations", using: :gin
   add_index "memberships", ["organization_id", "user_id"], name: "index_memberships_on_organization_id_and_user_id", unique: true, using: :btree
 
   create_table "organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

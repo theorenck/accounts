@@ -94,8 +94,6 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
-    rails_sql_views (0.8.0)
-      activerecord
     railties (4.2.1)
       actionpack (= 4.2.1)
       activesupport (= 4.2.1)
@@ -138,7 +136,6 @@ DEPENDENCIES
   pg
   rails (= 4.2.1)
   rails-erd (~> 1.4.2)
-  rails_sql_views (~> 0.8.0)
   sdoc (~> 0.4.0)
   tzinfo-data
   web-console (~> 2.0)
