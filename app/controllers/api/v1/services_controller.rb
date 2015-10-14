@@ -10,7 +10,7 @@ class API::V1::ServicesController < ApplicationController
     if @service
       render json: @service.as_json({include:[:type,instances:{include:[organization:{include:[]}]}]})
     else
-      render json: {message: 'Not found'}, status: :not_found
+      head 404
     end
   end
 
@@ -40,6 +40,7 @@ class API::V1::ServicesController < ApplicationController
   private
     def set_service
       @service = Service.includes(:type, instances:[:organization]).find_by(id: params[:id])
+      head 404 unless @service
     end
 
     def service_params

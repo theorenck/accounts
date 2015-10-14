@@ -11,7 +11,7 @@ class API::V1::OrganizationsController < ApplicationController
     if @organization
       render json: @organization.as_json({include:[:owner,:members,:service_instances, :applications]})
     else
-      render json: {message: 'Not found'}, status: :not_found
+      head 404
     end
   end
 
@@ -41,6 +41,7 @@ class API::V1::OrganizationsController < ApplicationController
   private
     def set_organization
       @organization = Organization.includes(:owner, :members, service_instances: [service:[:type]]).find_by(id: params[:id])
+      head 404 unless @organization
     end
 
     def set_owner

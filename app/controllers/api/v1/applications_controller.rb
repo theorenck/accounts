@@ -10,7 +10,7 @@ class API::V1::ApplicationsController < ApplicationController
     if @application
       render json: @application
     else
-      render json: {message: 'Not found'}, status: :not_found
+      head 404
     end
   end
 
@@ -40,6 +40,7 @@ class API::V1::ApplicationsController < ApplicationController
   private
     def set_application_instance
       @application = Application.find_by(id: params[:id])
+      head 404 unless @application
     end
 
     def application_params

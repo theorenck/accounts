@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20151006184034) do
   create_table "memberships", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "user_id"
-    t.boolean  "authorized",         default: false
+    t.boolean  "active",             default: false
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.jsonb    "legacy_integration", default: {},    null: false

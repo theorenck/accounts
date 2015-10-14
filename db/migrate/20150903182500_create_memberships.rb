@@ -4,7 +4,7 @@ class CreateMemberships < ActiveRecord::Migration
     create_table :memberships, id: :uuid  do |t|
       t.uuid :organization_id
       t.uuid :user_id
-      t.boolean :authorized, default: false
+      t.boolean :active, default: false
       t.timestamps null: false
       t.jsonb :legacy_integration, null: false, default: '{}'
     end

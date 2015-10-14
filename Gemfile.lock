@@ -133,6 +133,7 @@ DEPENDENCIES
   activemodel-errors-tree (~> 0.1.0)
   byebug
   jwt (~> 1.5.1)
+  minitest (~> 5.8.1)
   pg
   rails (= 4.2.1)
   rails-erd (~> 1.4.2)

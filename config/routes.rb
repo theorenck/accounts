@@ -23,15 +23,18 @@ Rails.application.routes.draw do
       resources :organizations do
         resources :memberships do
           collection do
-            get :authorize
             get :pending
+          end
+          member do
+            patch :activate
+            patch :legacy_integration, :path => '/legacy-integration'
           end
         end
       end
     end
   end
 
-  match 'api/v1/authorize' => 'api/v1/authorization#authorize', via: [:get,:post]
+  # match 'api/v1/authorize' => 'api/v1/authorization#authorize', via: [:get,:post]
   # Add a catch-all route
   match "*any" => lambda { |r| [ 404, {}, []] }, via: [:all]
 end

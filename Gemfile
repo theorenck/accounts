@@ -39,5 +39,6 @@ group :development, :test do
   gem 'rails-erd', '~> 1.4.2'
 end
 
+gem 'minitest', '~> 5.8.1'
 # Easy and powerful exception tracking for Ruby
 # gem 'rollbar', '~> 2.3.0'

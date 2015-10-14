@@ -1,4 +1,4 @@
-class MembershipAuthorization < ApplicationMailer
+class MembershipActivation < ApplicationMailer
 
   default from: "zeta@zeta.com.br"
 
@@ -7,7 +7,7 @@ class MembershipAuthorization < ApplicationMailer
     mail to: @membership.organization.owner.email, subject: "Success! New membership notification"
   end
 
-  def authorized_notification(membership)
+  def activated_notification(membership)
     @membership = membership
     mail to: @membership.user.email, subject: "Success! membership authorized"
   end

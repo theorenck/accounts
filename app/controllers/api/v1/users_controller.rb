@@ -11,11 +11,14 @@ class API::V1::UsersController < ApplicationController
     if @user
       render json: @user.as_json({include:[:organizations,:authorizations]})
     else
-      render json: {message: 'Not found'}, status: :not_found
+      head 404
     end
   end
 
   def create
+    p ':::::::::::::'
+    p params
+    p ':::::::::::::'
     @user = User.new(user_params)
 
     if @user.save
@@ -57,7 +60,7 @@ class API::V1::UsersController < ApplicationController
     if @active_user.active
       render json: {message: 'Activation success'}, status: 200
     else
-      render json: {message: 'Not found'}, status: 404
+      head 404
     end
   end
 
@@ -66,13 +69,14 @@ class API::V1::UsersController < ApplicationController
     if @password_retrieval.retrieve
       render json: {message: 'Recovered password sent to the registered email'}, status: 200
     else
-      render json: {message: 'Not found'}, status: 404
+      head 404
     end
   end
 
   private
     def set_user
       @user = User.includes(organizations: [:owner]).find_by(id: params[:id])
+      head 404 unless @user
     end
 
     def password_retrieval_params

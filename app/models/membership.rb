@@ -1,5 +1,5 @@
 class Membership < ActiveRecord::Base
-	after_create :request_authorization_mail
+	after_create :request_activation_mail
 
 	belongs_to :organization
   belongs_to :user
@@ -12,7 +12,7 @@ class Membership < ActiveRecord::Base
     super({
       only:[
         :id,
-				:authorized,
+				:active,
 				:legacy_integration,
         :created_at,
         :updated_at
@@ -20,14 +20,14 @@ class Membership < ActiveRecord::Base
     }.merge(options))
   end
 
-	def request_authorization_mail
-		MembershipAuthorization.new_membership_notification(self).deliver_now
+	def request_activation_mail
+		MembershipActivation.new_membership_notification(self).deliver_now
 	end
 
-	def authorize
-    self.authorized = true
+	def activate
+    self.active = true
     self.save
-		MembershipAuthorization.authorized_notification(self).deliver_now
+		MembershipActivation.activated_notification(self).deliver_now
   end
 
 end
