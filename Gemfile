@@ -31,14 +31,19 @@ gem 'active_type', '~> 0.4.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
   # Automatically generate an entity-relationship diagram (ERD) for your Rails models.
   gem 'rails-erd', '~> 1.4.2'
 end
 
-gem 'minitest', '~> 5.8.1'
+group :development, :test do
+  gem 'rspec-rails', '~> 3.3.3'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'capybara', '~> 2.5.0'
+  gem 'guard-rspec', '~> 4.6.4'
+  gem 'rb-fsevent'
+end
+
 # Easy and powerful exception tracking for Ruby
 # gem 'rollbar', '~> 2.3.0'

@@ -9,9 +9,9 @@ class UsersControllerTest < ActionController::TestCase
     @url = URI("http://127.0.0.1:3000/api/v1/users")
     @http = Net::HTTP.new(@url.host, @url.port)
 
-    @request["content-type"] = 'application/json'
-    @request["cache-control"] = 'no-cache'
-    @request["postman-token"] = '6f6f4cd7-ed0a-ab6f-44e8-3adaf8a1eb5e'
+    # @request["content-type"] = 'application/json'
+    # @request["cache-control"] = 'no-cache'
+    # @request["postman-token"] = '6f6f4cd7-ed0a-ab6f-44e8-3adaf8a1eb5e'
   end
 
   # def test_get_with_token
@@ -33,22 +33,16 @@ class UsersControllerTest < ActionController::TestCase
   # end
 
   def test_post_user
-
     @request = Net::HTTP::Post.new(@url)
-    @request.body = "{\n    \"username\" : \"ivoneijr\",\n    \"password\" : \"ivoneijr\",\n    \"email\" : \"ivoneijr@gmail.com\"\n}"
+    # @request["content-type"] = 'application/json'
+    # @request["cache-control"] = 'no-cache'
+    # @request["postman-token"] = '6f6f4cd7-ed0a-ab6f-44e8-3adaf8a1eb5e'
+
+    user = { username: "ivoneijr", password: "ivoneijr", email: "ivoneijr@gmail.com" }
+    @request.body = URI.encode_www_form(user)
 
     response = @http.request(@request)
-    puts response.read_body
-
-
-
-    # @request = Net::HTTP::Post.new(@url)
-    #
-    # @request.body = JSON.parse({ username: "ivoneijr", password: "ivoneijr",email: "ivoneijr@gmail.com" })
-    # p request.body
-    #
-    # response = @http.request(@request)
-    # p '[3] '+response.code
+    p '[3] '+response.code
   end
 
 end
