@@ -1,7 +1,7 @@
 class API::V1::MembershipsController < ApplicationController
 
   before_action :set_activated,  only: [:create, :destroy]
-  before_action :set_membership, only: [:update, :destroy, :activate, :legacy_integration]
+  before_action :set_membership, only: [:update, :destroy, :activate, :integration]
 
   def create
     @membership = Membership.new(membership_params)
@@ -32,13 +32,26 @@ class API::V1::MembershipsController < ApplicationController
     end
   end
 
-  def legacy_integration
-    @membership.legacy_integration = request.raw_post
-    if @membership.save
-      head 200
-    else
-      head 422
-    end
+  def integration
+    @username = params[:username]
+    @password = params[:password]
+    @location = get_location(@membership)
+
+    # request = Net::HTTP::Post.new(@location)
+    # request.set_form_data('username' => @username, 'password' => @password)
+    #
+    # response = Net::HTTP.start(@location.hostname, @location.port) do |http|
+    #   http.request(request)
+    # end
+    #
+    # if response.code == '200'
+    #   @membership.legacy_integration = response.body
+    #   head 200 if @membership.save
+    # else
+    #   head 422
+    # end
+
+    head 200
   end
 
   private
@@ -50,13 +63,26 @@ class API::V1::MembershipsController < ApplicationController
     def set_activated
       organization = Organization.find_by(id: params[:organization_id])
       if organization.owned_by @authenticated.id
-        @authenticated_is_owner = params[:membership][:activated] = true
+        @authenticated_is_owner = params[:membership][:active] = true
       end
     end
 
     def membership_params
       params[:membership][:organization_id] = params[:organization_id]
-      params.require(:membership).permit(:user_id, :organization_id, :activated)
+      params.require(:membership).permit(:user_id, :organization_id, :active)
+    end
+
+    def get_location(membership)
+        @service_type = ServiceType.find_by(code: 'middleware')
+        @service_instance = membership.organization.service_instances
+        p '-------------------------------'
+        p @service_instance
+        # @service = @service_instance.service
+        #
+        # @location = @service_instance.uri+'/api/'+@service.version+'/authentication'
+        # p @location
+        p '-------------------------------'
+
     end
 
 end

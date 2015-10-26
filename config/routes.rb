@@ -24,7 +24,9 @@ Rails.application.routes.draw do
       resources :organizations do
         resources :memberships do
           collection do
+            get :activate
             get :pending
+            post :integration, :path => '/:id/integration'
           end
           member do
             patch :activate

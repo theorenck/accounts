@@ -1,11 +1,12 @@
 <h1><%= @membership.user.username %> solicitou participar de <%= @membership.organization.name %></h1>
 
 <p>
+
   <%= link_to "Clique aqui",
     controller: "api/v1/memberships",
     organization_id: @membership.organization.id,
-    action: "active",
-    host: 'prod-04',
+    action: "activate",
+    host: '127.0.0.1',
     port: 3000,
     token: @membership.id %> e autorize a solicitação.
 </p>
