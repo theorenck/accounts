@@ -13,7 +13,7 @@ Rails.application.routes.draw do
           post :retrieve_password, :path => '/retrieve-password'
           get :me
           get :activation
-          get '/:name/exists', to: 'users#exists'
+          get :exists, :path => '/exists/:name'
         end
       end
       resources :accounts

@@ -71,12 +71,8 @@ class API::V1::UsersController < ApplicationController
   end
 
   def exists
-    @user_to_check = params[:name]
-    if User.find_by(username: @user_to_check)
-      head 200
-    else
-      head 404
-    end
+    return head 200 if User.find_by(username: params[:name])
+    head 404
   end
 
   private
