@@ -1,5 +1,5 @@
 class API::V1::UsersController < ApplicationController
-  before_action :authenticate, except: [:create, :signin, :activation, :retrieve_password]
+  before_action :authenticate, except: [:create, :signin, :activation, :retrieve_password, :exists]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -16,9 +16,6 @@ class API::V1::UsersController < ApplicationController
   end
 
   def create
-    p ':::::::::::::'
-    p params
-    p ':::::::::::::'
     @user = User.new(user_params)
 
     if @user.save
@@ -68,6 +65,15 @@ class API::V1::UsersController < ApplicationController
     @password_retrieval = PasswordRetrieval.new(password_retrieval_params)
     if @password_retrieval.retrieve
       render json: {message: 'Recovered password sent to the registered email'}, status: 200
+    else
+      head 404
+    end
+  end
+
+  def exists
+    @user_to_check = params[:name]
+    if User.find_by(username: @user_to_check)
+      head 200
     else
       head 404
     end
