@@ -33,24 +33,8 @@ class API::V1::MembershipsController < ApplicationController
   end
 
   def integration
-    @username = params[:username]
-    @password = params[:password]
-    @location = get_location(@membership)
-
-    # request = Net::HTTP::Post.new(@location)
-    # request.set_form_data('username' => @username, 'password' => @password)
-    #
-    # response = Net::HTTP.start(@location.hostname, @location.port) do |http|
-    #   http.request(request)
-    # end
-    #
-    # if response.code == '200'
-    #   @membership.legacy_integration = response.body
-    #   head 200 if @membership.save
-    # else
-    #   head 422
-    # end
-
+    @service = @membership.organization.find_service('v1','middleware')
+    return if update_integration(@service, params[:username], params[:password])
     head 200
   end
 
@@ -72,17 +56,24 @@ class API::V1::MembershipsController < ApplicationController
       params.require(:membership).permit(:user_id, :organization_id, :active)
     end
 
-    def get_location(membership)
-        @service_type = ServiceType.find_by(code: 'middleware')
-        @service_instance = membership.organization.service_instances
-        p '-------------------------------'
-        p @service_instance
-        # @service = @service_instance.service
-        #
-        # @location = @service_instance.uri+'/api/'+@service.version+'/authentication'
-        # p @location
-        p '-------------------------------'
+    def update_integration(service, username, password)
+
+      @location = URI(service.uri+'/api/v1/authentication')
+
+      request = Net::HTTP::Post.new(@location)
+      request.set_form_data('username' => username, 'password' => password)
+
+      response = Net::HTTP.start(@location.hostname, @location.port) do |http|
+        http.request(request)
+      end
+
+      case response
+      when Net::HTTPOK
+        @membership.legacy_integration = response.body
+        head 200 if @membership.save
+      else
+        head response.code
+      end
 
     end
-
 end

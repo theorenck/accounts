@@ -30,4 +30,7 @@ class Organization < ActiveRecord::Base
 		true ? self.owner_id == id : false
 	end
 
+	def find_service(version, code)
+		self.service_instances.joins(service: [:type]).where(services: {version: version}, service_types: {code: code}).first
+	end
 end
