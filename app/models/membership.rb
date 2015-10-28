@@ -13,7 +13,7 @@ class Membership < ActiveRecord::Base
       only:[
         :id,
 				:active,
-				:legacy_integration,
+				:integration,
         :created_at,
         :updated_at
       ]
@@ -21,7 +21,12 @@ class Membership < ActiveRecord::Base
   end
 
 	def request_activation_mail
-		MembershipActivation.new_membership_notification(self).deliver_now
+		if self.user.id == self.organization.owner_id
+			self.active = true
+			self.save
+		else
+			MembershipActivation.new_membership_notification(self).deliver_now
+		end
 	end
 
 	def activate

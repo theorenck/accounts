@@ -7,33 +7,33 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json', except: [:new, :edit] } do
     namespace :v1 do
+
       resources :users do
         collection do
           post :signin
           post :retrieve_password, :path => '/retrieve-password'
           get :me
-          get :activation
           get :exists, :path => '/exists/:name'
         end
+        member do
+          get :activate
+        end
       end
-      resources :accounts
-      resources :applications
-      resources :services
-      resources :profiles
-      resources :service_types, :path => '/service-types'
       resources :organizations do
         resources :memberships do
           collection do
-            get :activate
             get :pending
             post :integration, :path => '/:id/integration'
           end
           member do
-            patch :activate
-            patch :legacy_integration, :path => '/legacy-integration'
+            get :activate
           end
         end
       end
+      resources :applications
+      resources :services
+      resources :service_types, :path => '/service-types'
+      resources :accounts
     end
   end
 

@@ -1,14 +1,13 @@
 class API::V1::MembershipsController < ApplicationController
 
-  before_action :set_activated,  only: [:create, :destroy]
   before_action :set_membership, only: [:update, :destroy, :activate, :integration]
 
   def create
     @membership = Membership.new(membership_params)
     if @membership.save
-      render json: @membership
+      render json: @membership, status: 201
     else
-      render json: { errors: @membership.errors }, status: :unprocessable_entity
+      render json: { errors: @membership.errors }, status: 422
     end
   end
 
@@ -20,11 +19,12 @@ class API::V1::MembershipsController < ApplicationController
 
   def pending
     @memberships = Membership.joins(:organization).where(active: false, :organizations => {:owner_id => @authenticated.id })
-    render json: @memberships.as_json({include: :user})
+    return head 404 if @memberships.empty?
+    render json: @memberships.as_json({include: :user}), status: 200
   end
 
   def destroy
-    if @authenticated_is_owner
+    if @membership.organization.owned_by @authenticated.id
       @membership.destroy
       head :no_content
     else
@@ -44,36 +44,31 @@ class API::V1::MembershipsController < ApplicationController
       head 404 unless @membership
     end
 
-    def set_activated
-      organization = Organization.find_by(id: params[:organization_id])
-      if organization.owned_by @authenticated.id
-        @authenticated_is_owner = params[:membership][:active] = true
-      end
-    end
-
     def membership_params
       params[:membership][:organization_id] = params[:organization_id]
-      params.require(:membership).permit(:user_id, :organization_id, :active)
+      params.require(:membership).permit(:user_id, :organization_id)
     end
 
     def update_integration(service, username, password)
-
-      @location = URI(service.uri+'/api/v1/authentication')
-
-      request = Net::HTTP::Post.new(@location)
-      request.set_form_data('username' => username, 'password' => password)
-
-      response = Net::HTTP.start(@location.hostname, @location.port) do |http|
-        http.request(request)
-      end
+      response = middleware_authentication(service.uri+'/api/v1/authentication', username, password)
 
       case response
       when Net::HTTPOK
-        @membership.legacy_integration = response.body
+        @membership.integration = response.body
+        @membership.active = true
         head 200 if @membership.save
       else
         head response.code
       end
+    end
 
+    def middleware_authentication(location, username, password)
+      uri = URI(location)
+      request = Net::HTTP::Post.new(uri)
+      request.set_form_data('username' => username, 'password' => password)
+
+      response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.request(request)
+      end
     end
 end

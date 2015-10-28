@@ -18,7 +18,7 @@ class API::V1::ServicesController < ApplicationController
     @service = Service.new(service_params)
 
     if @service.save
-      render json: @service
+      render json: @service, status: 201, location: api_v1_service_url(@service)
     else
       render json: { errors: @service.errors }, status: :unprocessable_entity
     end
@@ -44,6 +44,6 @@ class API::V1::ServicesController < ApplicationController
     end
 
     def service_params
-      params.require(:service).permit(:version, :organization_id, :type_id)
+      params.require(:service).permit(:version, :type_id)
     end
 end

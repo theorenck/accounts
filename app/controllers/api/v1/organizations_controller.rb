@@ -18,18 +18,19 @@ class API::V1::OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
 
+    p organization_params
     if @organization.save
-      render json: @organization.as_json({include:[:owner]})
+      render json: @organization, status: 201, location: api_v1_organization_url(@organization)
     else
-      render json: { errors: @organization.errors }, status: :unprocessable_entity
+      render json: { errors: @organization.errors }, status: 422
     end
   end
 
   def update
     if @organization.update(organization_params)
-      render json: @organization.as_json({include:[:owner]}), status: :ok
+      render json: @organization.as_json({include:[:owner]}), status: 200
     else
-      render json: @organization.errors, status: :unprocessable_entity
+      render json: @organization.errors, status: 422
     end
   end
 
@@ -58,12 +59,7 @@ class API::V1::OrganizationsController < ApplicationController
         :name,
         :owner_id,
         memberships_attributes: [:user_id],
-        services_attributes: [:name,
-          :description,
-          :uri,
-          :organization_id,
-          :type_id
-        ]
+        services_attributes: [:version, :type_id]
       )
     end
 end

@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
 
         begin
           @authenticated = User.find_by(token: token)
-          unless @authenticated.activated
-            render_not_activated
+          unless @authenticated.active
+            render_not_active
           else
             @authenticated
           end
@@ -30,8 +30,8 @@ class ApplicationController < ActionController::Base
       render json: {message: 'Bad credentials'}, status: :unauthorized
     end
 
-    def render_not_activated
-      render json: {message: 'User not activated'}, status: :unauthorized
+    def render_not_active
+      render json: {message: 'User not active'}, status: :unauthorized
     end
 
 end

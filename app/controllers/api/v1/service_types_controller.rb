@@ -18,7 +18,7 @@ class API::V1::ServiceTypesController < ApplicationController
     @service_type = ServiceType.new(service_type_params)
 
     if @service_type.save
-      render json: @service_type
+      render json: @service_type, status: 201, location: api_v1_service_type_url(@service_type)
     else
       render json: { errors: @service_type.errors }, status: :unprocessable_entity
     end

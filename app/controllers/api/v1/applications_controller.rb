@@ -18,33 +18,33 @@ class API::V1::ApplicationsController < ApplicationController
     @application = Application.new(application_params)
 
     if @application.save
-      render json: @application
+      render json: @application, status: 201, location: api_v1_application_url(@application)
     else
-      render json: { errors: @application.errors }, status: :unprocessable_entity
+      render json: { errors: @application.errors }, status: 422
     end
   end
 
   def update
     if @application.update(application_params)
-      render json: @application, status: :ok
+      render json: @application, status: 200
     else
-      render json: { errors: @application.errors }, status: :unprocessable_entity
+      render json: { errors: @application.errors }, status: 422
     end
   end
 
   def destroy
     @application.destroy
-    head :no_content
+    head 404
   end
 
   private
-    def set_application_instance
+    def set_application
       @application = Application.find_by(id: params[:id])
       head 404 unless @application
     end
 
     def application_params
-      params.require(:application).permit(:url, :version, :name, :code, :description)
+      params.require(:application).permit(:redirect_uri, :version, :name, :description)
     end
 
 end

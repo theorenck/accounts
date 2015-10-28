@@ -6,10 +6,10 @@ class CreateMemberships < ActiveRecord::Migration
       t.uuid :user_id
       t.boolean :active, default: false
       t.timestamps null: false
-      t.jsonb :legacy_integration, null: false, default: '{}'
+      t.jsonb :integration, null: false, default: '{}'
     end
 
     add_index :memberships, [:organization_id, :user_id], unique: true
-    add_index :memberships, :legacy_integration, using: :gin
+    add_index :memberships, :integration, using: :gin
   end
 end

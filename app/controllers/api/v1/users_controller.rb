@@ -1,6 +1,6 @@
 class API::V1::UsersController < ApplicationController
-  before_action :authenticate, except: [:create, :signin, :activation, :retrieve_password, :exists]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, except: [:create, :signin, :activate, :retrieve_password, :exists]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :activate]
 
   def index
     @users = User.all
@@ -19,23 +19,23 @@ class API::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user
+      render json: @user, status: 201, location: api_v1_user_url(@user)
     else
-      render json: { errors: @user.errors }, status: :unprocessable_entity
+      render json: { errors: @user.errors }, status: 422
     end
   end
 
   def update
     if @user.update(user_params)
-      render json: @user, status: :ok
+      render json: @user, status: 200
     else
-      render json: { errors: @user.errors }, status: :unprocessable_entity
+      render json: { errors: @user.errors }, status: 422
     end
   end
 
   def destroy
     @user.destroy
-    head :no_content
+    head 204
   end
 
   def me
@@ -48,23 +48,20 @@ class API::V1::UsersController < ApplicationController
     if @signin.save
       render json: @signin, status: :created
     else
-      render json: { errors: @signin.errors }, status: :unprocessable_entity
+      render json: { errors: @signin.errors }, status: 422
     end
   end
 
-  def activation
-    @active_user = ActiveUser.new(activation_token: params[:activation_token])
-    if @active_user.active
-      render json: {message: 'Activation success'}, status: 200
-    else
-      head 404
-    end
+  def activate
+    head 200 if @user.active?
+    @user.activate
+    head 200
   end
 
   def retrieve_password
     @password_retrieval = PasswordRetrieval.new(password_retrieval_params)
     if @password_retrieval.retrieve
-      render json: {message: 'Recovered password sent to the registered email'}, status: 200
+      head 200
     else
       head 404
     end
