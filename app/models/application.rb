@@ -1,7 +1,9 @@
 class Application < ActiveRecord::Base
   before_create :set_secret
 
-  has_and_belongs_to_many :organizations,  :join_table => :subscriptions
+  # has_and_belongs_to_many :organizations,  :join_table => :subscriptions
+  has_many :subscriptions
+  has_many :organizations, through: :subscriptions
   has_many :authorizations
 
   validates :name, :version, :redirect_uri, presence: true
